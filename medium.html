@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medium Test</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Medium Mode</h2>
+<img id="photo">
+
+<div>
+  <input type="number" id="ans1" placeholder="First number">
+  <input type="number" id="ans2" placeholder="Second number">
+  <button onclick="checkAnswer()">Submit</button>
+</div>
+
+<div id="light" class="light"></div>
+<button onclick="nextPhoto()">Next</button>
+<br><br>
+<a href="index.html">🏠 Home</a>
+
+<script>
+const answers = {
+  1:[8,6], 2:[29,57], 3:[5,3], 4:[15,74], 5:[2,6],
+  6:[97,45], 7:[5,7], 8:[16,73], 9:[26,42], 10:[35,96]
+};
+
+let order=[...Array(10).keys()].map(x=>x+1);
+let index=0, current;
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+}
+shuffle(order);
+
+function loadPhoto(){
+  if(index>=10){ alert("Finished! Restarting..."); shuffle(order); index=0; }
+  current=order[index];
+  photo.src="numbers"+current+".jpg";
+  ans1.value=""; ans2.value="";
+  light.className="light";
+}
+
+function checkAnswer(){
+  const a1=parseInt(ans1.value), a2=parseInt(ans2.value);
+  const correct = answers[current];
+  if((a1===correct[0] && a2===correct[1]) || (a1===correct[1] && a2===correct[0])){
+    light.className="light green";
+  } else {
+    light.className="light red";
+  }
+}
+
+function nextPhoto(){ index++; loadPhoto(); }
+
+loadPhoto();
+</script>
+</body>
+</html>
